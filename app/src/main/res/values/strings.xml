@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Story</string>
+
+    <string name="Main_header">Top Stories</string>
+    <string name="Detail_header">Story Detail</string>
+
+
+    <string name="Favorite_title">My Fav</string>
+</resources>

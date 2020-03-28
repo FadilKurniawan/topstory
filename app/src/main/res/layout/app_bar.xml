@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutheaderbase"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
+        android:layout_height="56dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        >
+
+
+        <TextView
+            android:id="@+id/headerText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:text="@string/app_name"
+            android:gravity="center"
+            android:textSize="23dp"
+            android:fontFamily="sans-serif-light"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/headerLayout"
+        android:background="@drawable/form_separator" />
+
+</RelativeLayout>
