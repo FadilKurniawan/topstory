@@ -12,27 +12,32 @@ import kotlinx.android.synthetic.main.app_bar.*
 
 class TopStoryActivity : AppCompatActivity(),IStory {
     lateinit var txt: TextView
+    var getItemFromIndex: Int =0
+    var getItemToIndex:Int = 5
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        txt = findViewById<TextView>(R.id.txt)
+        initialization()
+    }
 
+    private fun initialization() {
         headerText.text = resources.getString(R.string.Main_header)
         StoryPresenter(this).getDataList()
-
     }
 
     override fun onIdList(idStory: List<Int>?) {
         if (idStory != null) {
-            StoryPresenter(this).getListDetail(idStory)
+            StoryPresenter(this).getListDetail(idStory,getItemFromIndex,getItemToIndex)
+            getItemFromIndex+=6
+            getItemToIndex+=6
         }else{
             Toast.makeText(this,"response 1 null ",Toast.LENGTH_LONG).show()
         }
     }
 
-    override fun onStoryList(listStory: Story?) {
-        txt.text = listStory?.title
+    override fun onStoryList(listStory: ArrayList<Story>) {
+        txt.text = listStory[0].by
     }
 
     override fun onDataError(throwable: Throwable) {

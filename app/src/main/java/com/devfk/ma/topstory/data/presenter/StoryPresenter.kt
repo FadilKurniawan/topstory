@@ -1,10 +1,10 @@
 package com.devfk.ma.topstory.data.presenter
 
+import android.annotation.SuppressLint
 import android.content.Context
-import androidx.annotation.IntegerRes
 import com.devfk.ma.topstory.data.`interface`.IStory
+import com.devfk.ma.topstory.data.model.Story
 import com.devfk.ma.topstory.data.service.APIService
-import com.rx2androidnetworking.Rx2AndroidNetworking
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -30,41 +30,27 @@ class StoryPresenter(context: Context){
             })
     }
 
-    fun getListDetail(listStory: List<Int>) {
+    @SuppressLint("CheckResult")
+    fun getListDetail(listid: List<Int>,from:Int,to:Int) {
+
         var api = APIService.create()
-        println("** Started ${listStory.size} length")
-//        val requests: MutableList<Observable<*>> = ArrayList()
-//        val call1: Observable<List<Story>>
-//
-//        for (i in listStory.indices){
-//            requests.add(APIService.create().getItemDetail(listStory[i]))
-//        }
-        var i=1
-        Observable.fromIterable(listStory)
-            .flatMapCompletable { api.getItemDetail(it).doOnComplete {
-                println("** complete $i")
-                i++
-            }.doOnError { it ->
-                println("** Error $i = ${it.message}")
-                i++
-            } }
-            .subscribeOn(Schedulers.io())
+        var listStory: ArrayList<Story> = ArrayList()
+
+        Observable.fromIterable(listid.subList(from,to+1))
+            .flatMapCompletable{
+                api.getItemDetail(it).doOnNext {
+                    listStory.add(it)
+                }.ignoreElements()
+            }
+            .subscribeOn(Schedulers.single())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                println("** completed")
+                storyView.onStoryList(listStory)
             }, {
                 println(it.message)
              }
             )
-        println("** completed")
 
-
-    }
-    private fun getAllMyFriendsObservable(): Observable<List<Int?>?>? {
-        return Rx2AndroidNetworking.get("https://fierce-cove-29863.herokuapp.com/getAllFriends/{userId}")
-            .addPathParameter("userId", "1")
-            .build()
-            .getObjectListObservable(Int)
     }
 
 }

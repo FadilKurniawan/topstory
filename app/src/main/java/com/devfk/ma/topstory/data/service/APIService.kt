@@ -1,7 +1,9 @@
 package com.devfk.ma.topstory.data.service
 
+import com.devfk.ma.topstory.data.model.Story
 import com.devfk.ma.topstory.data.util.Constant
 import io.reactivex.Completable
+import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -15,7 +17,7 @@ interface APIService{
     fun getIdList(): Call<List<Int>>
 
     @GET("item/{Id}.json")
-    fun getItemDetail(@Path("Id") Id:Int): Completable
+    fun getItemDetail(@Path("Id") Id:Int): Observable<Story>
 
     companion object Factory {
         fun create(): APIService{
